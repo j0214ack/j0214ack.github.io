@@ -22,6 +22,8 @@
 
 * [Postit! (仿Reddit)](http://chanyu-tl-postit.herokuapp.com/) [原始碼](https://github.com/j0214ack/tl-postit)
 
+* [Myflix (a NetFlix clone)](http://chanyu-myflix.herokuapp.com/) [原始碼](https://github.com/j0214ack/myflix)
+
 ## 格言
 * Minimum viable solution and iterations (先求有，再求好。)
 
