@@ -10,8 +10,7 @@ relative_permalinks: true
 title:            ChanYu
 tagline:          'A Jekyll theme'
 description: >
-  我是展佑，臺大心理系畢業，自學Ruby On Rails與JavaScript。希望有天能成
-  為一位獨當一面的全端工程師與設計師。
+  我是展佑，臺大心理系畢業，自學Ruby On Rails與JavaScript。希望有天能成為一位獨當一面的全端工程師與設計師。
 baseurl:          /
 
 author:
