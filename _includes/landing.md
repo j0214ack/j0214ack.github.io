@@ -18,10 +18,9 @@
 * 成為獨當一面的全端工程師
 
 ## 作品集
+* [臺大管理學院官方網站](http://www.management.ntu.edu.tw/)
 * [Ajax 21點](http://chanyu-ajax-blackjack.herokuapp.com/player/new) [原始碼](https://github.com/j0214ack/tl_week4_ajax_bj)
-
 * [Postit! (仿Reddit)](http://chanyu-tl-postit.herokuapp.com/) [原始碼](https://github.com/j0214ack/tl-postit)
-
 * [Myflix (a NetFlix clone)](http://chanyu-myflix.herokuapp.com/) [原始碼](https://github.com/j0214ack/myflix)
 
 ## 格言
