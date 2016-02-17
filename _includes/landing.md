@@ -5,6 +5,8 @@
 * JavaScript
   * Native JavaScript
   * jQuery
+  * React and React Native ( and currently learning redux )
+  * D3.js
 * HTML 5
 * CSS 3
 * Twitter Bootstrap 2/3
@@ -22,6 +24,9 @@
 * [Ajax 21點](http://chanyu-ajax-blackjack.herokuapp.com/player/new) [原始碼](https://github.com/j0214ack/tl_week4_ajax_bj)
 * [Postit! (仿Reddit)](http://chanyu-tl-postit.herokuapp.com/) [原始碼](https://github.com/j0214ack/tl-postit)
 * [Myflix (a NetFlix clone)](http://chanyu-myflix.herokuapp.com/) [原始碼](https://github.com/j0214ack/myflix)
+* [Sparkrace product landing page](https://www.socialrace.cc/sparkrace)
+* Socialrace wall (using react) [螢幕截圖](/assets/socialrace-wall.png) [原網址（需登入）](https://www.socialrace.cc/zh-TW/portal/posts?portal_uid=3)
+* Socialrace 跑步數據呈現，using d3.js, react [螢幕截圖](/assets/socialrace-record.png) [原網址（需登入）](https://www.socialrace.cc/portal/personal_records)
 
 ## 格言
 * Minimum viable solution and iterations (先求有，再求好。)
