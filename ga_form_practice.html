@@ -1,0 +1,126 @@
+---
+layout: default
+title: "GA 表單練習"
+permalink: ga_form_practice.html
+---
+
+<style>
+  #ga_lead_form {
+
+  }
+
+  #submit-button {
+    display: none;
+  }
+
+  #submit-button.active {
+    display: block;
+  }
+</style>
+
+<table id="lead-table">
+  <thead>
+    <tr>
+      <th> 稱謂 </th>
+      <th> 信箱 </th>
+      <th> 手機 </th>
+      <th> gcid </th>
+    </tr>
+  </thead>
+  <tbody id="lead-table-body">
+  </tbody>
+</table>
+
+<form id="ga_lead_form">
+  <label for="name">稱謂</label>
+  <input type="text" name="name" value="" placeholder="範例：陳先生">
+  <label for="email">信箱</label>
+  <input type="email" name="email" value="">
+  <label for="phone">手機</label>
+  <input type="tel" name="phone" value="">
+  <input type="submit" id='submit-button'/>
+</form>
+
+<script>
+  // ====== above are lead submit form handling =======
+  var loaded = false;
+  var formEle = document.getElementById('ga_lead_form'),
+      submitButtonEle = document.getElementById('submit-button');
+
+  var createHandleSubmit = function(clientId) {
+    return function(event) {
+      event.preventDefault();
+
+      var payload = {
+        Item: {
+          name: this.name.value,
+          email: this.email.value,
+          phone: this.phone.value,
+          gcid: clientId
+        }
+      }
+
+      var xmlReq = new XMLHttpRequest();
+      xmlReq.open("POST", "https://bqcn4udff3.execute-api.ap-southeast-1.amazonaws.com/dev/leads");
+      xmlReq.onload = function() {
+        console.log(this.responseText);
+        fetchCustomerData(fillTableRowsWithData);
+      }
+      xmlReq.setRequestHeader("Content-Type", "application/json");
+      xmlReq.send(JSON.stringify({payload: payload}));
+
+      return false;
+    }
+  }
+
+  window.addEventListener('load', function (event) {
+    ga(function(tracker) {
+      loaded = true;
+      submitButtonEle.className = "active";
+      formEle.onsubmit = createHandleSubmit(tracker.get('clientId'));
+    });
+  });
+
+  // ====== table content handling ======
+  var tableBodyEle = document.getElementById('lead-table-body');
+
+  var fetchCustomerData = function(callBack) {
+    var xmlReq = new XMLHttpRequest();
+    xmlReq.open('GET', "https://bqcn4udff3.execute-api.ap-southeast-1.amazonaws.com/dev/leads");
+    xmlReq.onload = function() {
+      callBack(JSON.parse(this.responseText));
+    }
+    xmlReq.setRequestHeader("Content-Type", "application/json");
+
+    xmlReq.send();
+  }
+
+  var fillTableRowsWithData = function(data) {
+    var rows = ""
+    data.Items.sort(function(a, b){
+      if (a.createdAt && b.createdAt) {
+        return a.createdAt - b.createdAt;
+      }
+      else if (a.createdAt) {
+        return 1;
+      }
+      else {
+        return 0;
+      }
+    }).reverse().forEach(function(item) {
+      rows += `
+      <tr>
+          <td>` + (item.name || "") + `</td>
+          <td>` + (item.email || "") + `</td>
+          <td>` + (item.phone || "") + `</td>
+          <td>` + (item.gcid || item.clientId || "") + `</td>
+      </tr>
+      `
+    });
+
+    tableBodyEle.innerHTML = rows;
+  }
+
+  fetchCustomerData(fillTableRowsWithData);
+
+</script>
