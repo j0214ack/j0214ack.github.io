@@ -25,6 +25,8 @@ permalink: ga_form_practice.html
       <th> 信箱 </th>
       <th> 手機 </th>
       <th> gcid </th>
+      <th> 成交價格 </th>
+      <th> 送出 GA </th>
     </tr>
   </thead>
   <tbody id="lead-table-body">
@@ -95,7 +97,38 @@ permalink: ga_form_practice.html
     xmlReq.send();
   }
 
+  var createRowBindingFunc = function(item, idx) {
+    return function() {
+      var value = document.getElementById("lead_item_" + idx + "_value").value,
+          updatedItem = item;
+          updatedItem.value = value;
+          updatedItem.sent = true;
+      var xmlReq = new XMLHttpRequest();
+      xmlReq.open("POST", "https://bqcn4udff3.execute-api.ap-southeast-1.amazonaws.com/dev/leads?id=" + item.id);
+      xmlReq.onload = function() {
+        console.log(this.responseText);
+        fetchCustomerData(fillTableRowsWithData);
+      }
+      xmlReq.setRequestHeader("Content-Type", "application/json");
+      xmlReq.send(JSON.stringify({payload: {Item: updatedItem}}));
+
+      var measurementProtocolReq = new XMLHttpRequest();
+      measurementProtocolReq.onload = function() {
+        console.log(this.responseText);
+      }
+      measurementProtocolReq.open('POST', "https://www.google-analytics.com/collect")
+      measurementProtocolReq.send(
+        "v=1&tid=UA-86787672-1&cid=" +
+        item.gcid +
+        "&t=event&ec=Offline&ea=Purchase&el=lead_form_purchase&ev=" +
+        value
+      )
+    }
+  }
+  var rowBindingFuncs = [];
+
   var fillTableRowsWithData = function(data) {
+    rowBindingFuncs = [];
     var rows = ""
     data.Items.sort(function(a, b){
       if (a.createdAt && b.createdAt) {
@@ -107,15 +140,28 @@ permalink: ga_form_practice.html
       else {
         return 0;
       }
-    }).reverse().forEach(function(item) {
+    }).reverse().forEach(function(item, i) {
+
+      if (!item.sent) {
+        rowBindingFuncs.push(createRowBindingFunc(item, i));
+      }
+      else {
+        rowBindingFuncs.push(null)
+      }
       rows += `
-      <tr>
+      <tr id="lead_item_` + i + `">
           <td>` + (item.name || "") + `</td>
           <td>` + (item.email || "") + `</td>
           <td>` + (item.phone || "") + `</td>
-          <td>` + (item.gcid || item.clientId || "") + `</td>
-      </tr>
-      `
+          <td>` + (item.gcid  || "") + `</td>` +
+          (item.sent ? (`
+            <td>` + item.value + `</td>
+            <td> 已提交 </td>
+          `) : `
+            <td><input type="number" id="lead_item_` + i + `_value" name="deal_price" value="0"/></td>
+            <td><button name="submit" onClick="rowBindingFuncs[` + i + `]()">送出</button></td>
+          ` ) +
+          `</tr>`
     });
 
     tableBodyEle.innerHTML = rows;
