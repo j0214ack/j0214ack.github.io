@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/hunter-power-test/precache-manifest.ae18c7d47242fd1173423940aec824cf.js"
+  "/hunter-power-test/precache-manifest.1eabf0c556570a76f9b03a57ea4a1c59.js"
 );
 
 workbox.clientsClaim();

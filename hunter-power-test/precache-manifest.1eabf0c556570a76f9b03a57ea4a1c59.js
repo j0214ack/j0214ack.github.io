@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/hunter-power-test/static/js/runtime~main.b93db3a3.js"
   },
   {
-    "revision": "817e80f0a67794ed07c5cd87ce2cec50",
+    "revision": "6b6f3c6f54c4591fcd91d5ce791f1047",
     "url": "/hunter-power-test/index.html"
   }
 ];
